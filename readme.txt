@@ -2,7 +2,7 @@
 Contributors: Peter Coughlin, Denis de Bernardy
 Tags: semiologic
 Requires at least: 2.8
-Tested up to: 3.2.1
+Tested up to: 3.5
 Stable tag: trunk
 
 A robots.txt file manager.
@@ -14,6 +14,10 @@ A robots.txt file manager.
 
 
 == Change Log ==
+
+= 1.3.1
+
+- WP 3.5 compat
 
 = 1.3 =
 
