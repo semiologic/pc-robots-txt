@@ -61,4 +61,3 @@ function pc_robots_txt_options() {
 }# end function pc_robots_txt_options() {
 
 add_action('admin_menu', 'pc_robots_txt_admin_menu');
-?>

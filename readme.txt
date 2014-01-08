@@ -1,8 +1,8 @@
 === PC Robots.txt ===
 Contributors: Peter Coughlin, Denis de Bernardy
-Tags: semiologic
+Tags: semiologic, robots.txt
 Requires at least: 2.8
-Tested up to: 3.6
+Tested up to: 3.8
 Stable tag: trunk
 
 A robots.txt file manager.
@@ -14,6 +14,10 @@ A robots.txt file manager.
 
 
 == Change Log ==
+
+= 1.3.3 =
+
+- Tested with WP 3.8
 
 = 1.3.2 =
 
