@@ -3,7 +3,7 @@
 Plugin Name: PC Robots.txt
 Plugin URI: http://petercoughlin.com/wp-plugins/
 Description: Create and manage a virtual robots.txt file for your blog.
-Version: 1.4 fork
+Version: 1.4.1 fork
 Author: Peter Coughlin
 Author URI: http://petercoughlin.com/
 */
@@ -34,7 +34,16 @@ function pc_robots_txt() {
 				, $options );
 			update_site_option( 'pc_robots_txt', $options );
 		}
-		
+
+		// add semiologic folders in wp-content
+		if ( strpos ( $options, 'Allow: /wp-content/semiologic/' ) === false ) {
+			$options = str_replace( "Allow: /wp-content/plugins/*/*.js$",
+				"Allow: /wp-content/plugins/*/*.js$\n"
+				. "Allow: /wp-content/authors/\n"
+				. "Allow: /wp-content/semiologic/\n"
+				, $options );
+			update_site_option( 'pc_robots_txt', $options );
+		}
 		if ( !$options)
 			$options = pc_robots_txt_set_defaults();
 		
@@ -58,6 +67,8 @@ function pc_robots_txt_set_defaults() {
 		. "Allow: /wp-content/cache/assets/\n"
 		. "Allow: /wp-content/themes/*/*.css$\n"
 		. "Allow: /wp-content/plugins/*/*.js$\n"
+		. "Allow: /wp-content/authors/\n"
+		. "Allow: /wp-content/semiologic/\n"
 		. "Allow: /*.png$\n"
 		. "Allow: /*.jpg$\n"
 		. "Allow: /*.gif$\n";

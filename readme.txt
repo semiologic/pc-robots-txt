@@ -15,6 +15,10 @@ A robots.txt file manager.   Adds a virtual robots.txt file to control how your 
 
 == Change Log ==
 
+= 1.4.1 =
+
+- Add \wp-content\authors and \wp-content\semiologic to allowed crawl directories
+
 = 1.4 =
 
 - Ensure that the \wp-includes\ directory in not disallowed.  Google wants to be able to crawl js and css files.  Add rules css and js access
