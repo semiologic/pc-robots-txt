@@ -3,8 +3,8 @@
 Plugin Name: PC Robots.txt
 Plugin URI: http://petercoughlin.com/wp-plugins/
 Description: Create and manage a virtual robots.txt file for your blog.
-Version: 1.4.1 fork
-Author: Peter Coughlin
+Version: 1.5 fork
+Author: Peter Coughlin & Mike Koepke
 Author URI: http://petercoughlin.com/
 */
 
