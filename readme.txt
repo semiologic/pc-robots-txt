@@ -15,6 +15,11 @@ A robots.txt file manager.   Adds a virtual robots.txt file to control how your 
 
 == Change Log ==
 
+= 1.6 =
+
+- Updated js and css rules for theme and plugin directories to allow versioned files example.js?ver=20141120
+- Fixed admin screen overwriting custom changes on subsequent screen access.
+
 = 1.5 =
 
 - WP 4.0 compat

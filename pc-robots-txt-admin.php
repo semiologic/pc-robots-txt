@@ -18,10 +18,6 @@ function pc_robots_txt_admin_menu() {
 function pc_robots_txt_options() {
 	if ( function_exists('is_super_admin') && !is_super_admin() )
 		return;
-	
-	$options = get_site_option('pc_robots_txt');
-	if ( $options )
-		$options = pc_robots_txt_set_defaults();
 
 	if ( isset($_POST['update']) ){
 
@@ -42,20 +38,56 @@ function pc_robots_txt_options() {
 		echo "<div id=\"message\" class=\"updated fade\"><p>Settings reset to defaults.</p></div>";
 	}
 	else {
-		// only block wp-admin see: https://core.trac.wordpress.org/ticket/28604
-		if ( strpos ( $options, 'Allow: /wp-includes/' ) === false ) {
-			$options = str_replace( "Allow: /wp-content/uploads",
-				"Allow: /wp-includes/\n"
-				. "Allow: /wp-admin/load-scripts.php?*\n"
-				. "Allow: /wp-content/uploads/\n"
-				. "Allow: /wp-content/cache/assets/\n"
-				. "Allow: /wp-content/themes/*/*.css$\n"
-				. "Allow: /wp-content/plugins/*/*.js$\n"
-				. "Allow: /*.png$\n"
-				. "Allow: /*.jpg$\n"
-				. "Allow: /*.gif$\n"
-				, $options );
-			update_site_option( 'pc_robots_txt', $options );
+		$options = get_site_option('pc_robots_txt');
+		if ( $options ) {
+			// only block wp-admin see: https://core.trac.wordpress.org/ticket/28604
+			if ( strpos ( $options, 'Allow: /wp-includes/' ) === false ) {
+				$options = str_replace( "Allow: /wp-content/uploads",
+					"Allow: /wp-includes/\n"
+					. "Allow: /wp-admin/load-scripts.php?*\n"
+					. "Allow: /wp-content/uploads/\n"
+					. "Allow: /wp-content/cache/assets/\n"
+					. "Allow: /wp-content/themes/*/*.css\n"
+					. "Allow: /wp-content/themes/*/*.js\n"
+					. "Allow: /wp-content/plugins/*/*.css\n"
+					. "Allow: /wp-content/plugins/*/*.js\n"
+					. "Allow: /wp-content/authors/\n"
+					. "Allow: /wp-content/semiologic/\n"
+					. "Allow: /*.png$\n"
+					. "Allow: /*.jpg$\n"
+					. "Allow: /*.gif$\n"
+					, $options );
+				update_site_option( 'pc_robots_txt', $options );
+			}
+
+			// add semiologic folders in wp-content
+			if ( strpos ( $options, 'Allow: /wp-content/semiologic/' ) === false ) {
+				$options = str_replace( "Allow: /*.png$",
+					"Allow: /wp-content/authors/\n"
+					. "Allow: /wp-content/semiologic/"
+					. "Allow: /*.png$\n"
+					, $options );
+
+				update_site_option( 'pc_robots_txt', $options );
+			}
+
+			// update the rules to handle versioned WP files
+			if ( strpos ( $options, "Allow: /wp-content/themes/*/*.css$" ) !== false ) {
+				$options = str_replace( "Allow: /wp-content/themes/*/*.css$",
+					"Allow: /wp-content/themes/*/*.css\n"
+					. "Allow: /wp-content/themes/*/*.js"
+					, $options );
+
+				$options = str_replace( "Allow: /wp-content/plugins/*/*.js$",
+					"Allow: /wp-content/plugins/*/*.css\n"
+					. "Allow: /wp-content/plugins/*/*.js"
+					, $options );
+
+				update_site_option( 'pc_robots_txt', $options );
+			}
+		}
+		else {
+			$options = pc_robots_txt_set_defaults();
 		}
 	}
 

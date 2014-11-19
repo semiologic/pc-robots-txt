@@ -3,7 +3,7 @@
 Plugin Name: PC Robots.txt
 Plugin URI: http://petercoughlin.com/wp-plugins/
 Description: Create and manage a virtual robots.txt file for your blog.
-Version: 1.5 fork
+Version: 1.6 fork
 Author: Peter Coughlin & Mike Koepke
 Author URI: http://petercoughlin.com/
 */
@@ -26,32 +26,54 @@ function pc_robots_txt() {
 				. "Allow: /wp-admin/load-scripts.php?*\n"
 				. "Allow: /wp-content/uploads/\n"
 				. "Allow: /wp-content/cache/assets/\n"
-				. "Allow: /wp-content/themes/*/*.css$\n"
-				. "Allow: /wp-content/plugins/*/*.js$\n"
+				. "Allow: /wp-content/themes/*/*.css\n"
+				. "Allow: /wp-content/themes/*/*.js\n"
+				. "Allow: /wp-content/plugins/*/*.css\n"
+				. "Allow: /wp-content/plugins/*/*.js\n"
+				. "Allow: /wp-content/authors/\n"
+				. "Allow: /wp-content/semiologic/\n"
 				. "Allow: /*.png$\n"
 				. "Allow: /*.jpg$\n"
 				. "Allow: /*.gif$\n"
 				, $options );
+
 			update_site_option( 'pc_robots_txt', $options );
 		}
 
 		// add semiologic folders in wp-content
 		if ( strpos ( $options, 'Allow: /wp-content/semiologic/' ) === false ) {
-			$options = str_replace( "Allow: /wp-content/plugins/*/*.js$",
-				"Allow: /wp-content/plugins/*/*.js$\n"
-				. "Allow: /wp-content/authors/\n"
-				. "Allow: /wp-content/semiologic/\n"
+			$options = str_replace( "Allow: /*.png$",
+				"Allow: /wp-content/authors/\n"
+				. "Allow: /wp-content/semiologic/"
+				. "Allow: /*.png$\n"
 				, $options );
+
 			update_site_option( 'pc_robots_txt', $options );
 		}
+
+		// update the rules to handle versioned WP files
+		if ( strpos ( $options, "Allow: /wp-content/themes/*/*.css$" ) !== false ) {
+			$options = str_replace( "Allow: /wp-content/themes/*/*.css$",
+				"Allow: /wp-content/themes/*/*.css\n"
+				. "Allow: /wp-content/themes/*/*.js"
+				, $options );
+
+			$options = str_replace( "Allow: /wp-content/plugins/*/*.js$",
+				"Allow: /wp-content/plugins/*/*.css\n"
+				. "Allow: /wp-content/plugins/*/*.js"
+				, $options );
+
+			update_site_option( 'pc_robots_txt', $options );
+		}
+
 		if ( !$options)
 			$options = pc_robots_txt_set_defaults();
-		
+
 		$pc_robots_txt = stripslashes($options);
-		
+
 		header( 'Content-Type: text/plain; charset=utf-8' );
 		echo trim($pc_robots_txt) . "\n";
-		
+
 		do_action( 'do_robotstxt' );
 	}# end if ( strpos($_SERVER['REQUEST_URI'], '/robots.txt') !== false ) {
 
@@ -65,15 +87,17 @@ function pc_robots_txt_set_defaults() {
 		. "Allow: /wp-admin/load-scripts.php?*\n"
 		. "Allow: /wp-content/uploads/\n"
 		. "Allow: /wp-content/cache/assets/\n"
-		. "Allow: /wp-content/themes/*/*.css$\n"
-		. "Allow: /wp-content/plugins/*/*.js$\n"
+		. "Allow: /wp-content/themes/*/*.css\n"
+		. "Allow: /wp-content/themes/*/*.js\n"
+		. "Allow: /wp-content/plugins/*/*.css\n"
+		. "Allow: /wp-content/plugins/*/*.js\n"
 		. "Allow: /wp-content/authors/\n"
 		. "Allow: /wp-content/semiologic/\n"
 		. "Allow: /*.png$\n"
 		. "Allow: /*.jpg$\n"
 		. "Allow: /*.gif$\n";
 
-	
+
 	update_site_option('pc_robots_txt', $options);
 
 	return $options;
