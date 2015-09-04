@@ -10,12 +10,18 @@ A robots.txt file manager.
 
 == Description ==
 
+> *This plugin fork has been retired.  No further development will occur on it.*
+
 A robots.txt file manager.   Adds a virtual robots.txt file to control how your site is crawled by the search engines.
 
 
 == Change Log ==
 
-= 1.6 =
+= 1.6.2 =
+
+- Development has ceased on this plugin fork.  Updated source and readme accordingly
+
+= 1.6.1 =
 
 - WP 4.3 compat
 

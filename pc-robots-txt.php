@@ -2,11 +2,37 @@
 /*
 Plugin Name: PC Robots.txt
 Plugin URI: http://petercoughlin.com/wp-plugins/
-Description: Create and manage a virtual robots.txt file for your blog.
-Version: 1.6.1 fork
+Description: RETIRED - Create and manage a virtual robots.txt file for your blog.
+Version: 1.6.2 fork
 Author: Peter Coughlin & Mike Koepke
 Author URI: http://petercoughlin.com/
 */
+
+/*
+* This plugin has been retired.  No further development will occur on it.
+* */
+
+// Disable the plugin
+
+$active_plugins = get_option('active_plugins');
+
+if ( !is_array($active_plugins) )
+{
+	$active_plugins = array();
+}
+
+foreach ( (array) $active_plugins as $key => $plugin )
+{
+	if ( $plugin == 'pc-robots-txt/pc-robots-txt.php' )
+	{
+		unset($active_plugins[$key]);
+		break;
+	}
+}
+
+sort($active_plugins);
+
+update_option('active_plugins', $active_plugins);
 
 
 function pc_robots_txt() {
